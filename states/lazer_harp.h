@@ -1,6 +1,6 @@
 void initializeLazerHarpState(){
-     allLazersOff();
-     lazerOn(1);
+     allLazersOn();
      displayTop("LAZER HARP");
      displayBottom("LETS GO");
+     delay(5000);
 }

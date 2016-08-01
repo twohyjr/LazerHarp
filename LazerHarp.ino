@@ -10,7 +10,7 @@
 #include "states/wack_a_lazer.h"
 #include "controllers/menu_controller.h"
 
-bool goToMenu = true;
+bool displayMenu = true;
 
 void setup() {
      initializePinSetup();
@@ -19,7 +19,12 @@ void setup() {
 }
 
 void loop() {
-      
-}   
 
+     if(displayMenu){
+          showMenu();
+          displayMenu = false;
+     }
+     
+    displayMenu = true;
+}
 

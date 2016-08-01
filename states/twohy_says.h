@@ -1,6 +1,6 @@
 void initializeTwohySaysState(){
-     allLazersOff();
-     lazerOn(2);
+     allLazersOn();
      displayTop("TWOHY SAYS");
      displayBottom("LETS GO");
+     delay(5000);
 }
