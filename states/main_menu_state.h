@@ -1,11 +1,11 @@
 void startSelection(int currentSelection);
 
-char *menuOptions[] = {"Lazer Harp", "Twohy Says!"};
+char *menuOptions[] = {"Lazer Harp ->", "<- Twohy Says!"};
 
 int numberOfOptions = sizeof(menuOptions);
 bool isSelected = false;
 
-void showMenu(){
+int showMenu(){
      clearDisplay();
      allLazersOff();
      displayTop("Select A Mode!");
@@ -26,9 +26,10 @@ void showMenu(){
                isSelected = true;
           }
      }
-
+     isSelected = false;
+     launchLoadingDisplay();
      startSelection(currentSelection);
-
+     return currentSelection;
 }
 
 void startSelection(int currentSelection){
@@ -41,7 +42,5 @@ void startSelection(int currentSelection){
 }
 
 bool isMenuButtonSelected(){
-
-          return false;
-
+     return false;
 }
