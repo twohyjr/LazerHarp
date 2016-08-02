@@ -4,9 +4,9 @@
 void displayTop(char text[]);
 void clearDisplay();
 //#####################################################
-
+int numSpaces;
 void displayTop(char text[]){
-     int numSpaces = 16 - sizeof(text);
+     numSpaces = 16 - sizeof(text);
      if(numSpaces < 0){
           numSpaces = 0;
      }

@@ -3,9 +3,11 @@
 #include <LiquidCrystal.h>
 #include "setups/pin_setup.h"
 #include "setups/randoms_setup.h"
+#include "setups/sound_setup.h"
 #include "controllers/lazer_controller.h"
 #include "controllers/lcd_controller.h"
 #include "controllers/photocell_controller.h"
+#include "controllers/sound_controller.h"
 #include "states/loading_state.h"
 #include "states/lazer_harp.h"
 #include "states/twohy_says.h"
@@ -22,6 +24,8 @@ void setup() {
      initializeLazerController();
 }
 
+// Initialize core variables
+
 void loop() {
 
      if(displayMenu){
@@ -34,6 +38,7 @@ void loop() {
         bool playAgain = displayPlayAgain();
     
         if(playAgain){
+          clearDisplay();
           startSelection(currentState);
         }else{
           displayMenu = true;
