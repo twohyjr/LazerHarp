@@ -26,7 +26,7 @@ void initializeTwohySaysState(){
      allLazersOn();
      displayTop("  TWOHY SAYS!!");
      char str[15];
-     sprintf(str, "High: %d ", getHighScore());
+     sprintf(str, "    High: %d ", getHighScore());
      initialize();
      displayBottom(str);
      doTwohySaysIntro();

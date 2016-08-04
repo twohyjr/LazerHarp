@@ -30,8 +30,8 @@ LiquidCrystal lcd(rs, enable, d4, d5, d6, d7);
 int speakerOut = 53;
 
 // ------ Setup UltraSonicSensors ----
-int trigPin = 12; // blue
-int echoPin = 11; // green
+int trigPin = 11; // blue
+int echoPin = 12; // green
 
 //------- Setup Menu Stuff ----------
 int selectButton = 5;

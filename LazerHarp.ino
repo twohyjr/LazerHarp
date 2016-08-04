@@ -10,6 +10,7 @@
 #include "controllers/lcd_controller.h"
 #include "controllers/photocell_controller.h"
 #include "controllers/sound_controller.h"
+#include "controllers/ultra_sonic_controller.h"
 #include "states/loading_state.h"
 #include "states/lazer_harp.h"
 #include "states/twohy_says.h"

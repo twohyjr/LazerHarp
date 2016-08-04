@@ -1,3 +1,7 @@
+bool isPhotocell1ActiveQuick();
+bool isPhotocell2ActiveQuick();
+bool isPhotocell3ActiveQuick();
+
 int photocellReading1;
 int photocellReading2;
 int photocellReading3;
