@@ -1,3 +1,5 @@
+bool soundOn = false;
+
 int tone_ = 0;
 int beat = 0;
 long duration  = 0;

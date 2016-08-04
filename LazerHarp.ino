@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <LiquidCrystal.h>
+#include <EEPROM.h>
+#include "utils/score_keeper.h"
 #include "setups/pin_setup.h"
 #include "setups/randoms_setup.h"
 #include "setups/sound_setup.h"
@@ -22,12 +24,12 @@ void setup() {
      initializePinSetup();
      initializeRandomNumbers();
      initializeLazerController();
+     initializeScoreKeeper();
 }
 
 // Initialize core variables
 
 void loop() {
-
      if(displayMenu){
           currentState = showMenu();
           displayMenu = false;
@@ -46,8 +48,5 @@ void loop() {
     }else{
       displayMenu = true;
     }
-   
-     
-    
 }
 
