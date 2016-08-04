@@ -36,10 +36,10 @@ bool displayOptions(){
      lazerOn(1);
      lazerOn(3);
 
-     if(isPhotocell1Active()){
+     if(isPhotocell1ActiveQuick()){
           selected = true;
           return true;
-     }else if(isPhotocell3Active()){
+     }else if(isPhotocell3ActiveQuick()){
           selected = true;
           return false;
      }

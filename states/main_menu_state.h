@@ -7,7 +7,7 @@ bool isSelected = false;
 
 int showMenu(){
      clearDisplay();
-     allLazersOff();
+     allLazersOn();
      displayTop("Select A Mode!");
      int currentSelection = 0;
      char* textToDisplay = "";
@@ -23,6 +23,10 @@ int showMenu(){
           }
 
           if(digitalRead(selectButton) == HIGH){
+               isSelected = true;
+          }
+
+          if(isPhotocell1ActiveQuick() || isPhotocell2ActiveQuick() || isPhotocell3ActiveQuick()){
                isSelected = true;
           }
      }

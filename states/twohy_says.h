@@ -1,6 +1,7 @@
 void initialize();
 void addNewNote();
 void doTwohySaysIntro();
+void playTwohySaysHighScore(int roundNumber);
 void doTouchToStart();
 void doCountDown();
 void runGame();
@@ -9,6 +10,8 @@ int getNote(int number);
 int selectNote(int number);
 bool doLazerSelect(int lazerNumber);
 void doLazerTone(int lazer);
+void doGameOver();
+bool checkHighScore();
 
 int allLazerNumbers[1000];
 
@@ -83,13 +86,14 @@ void doCountDown(){
 }
 
 void runGame(){
-
+     gameOver = false;
      while(!gameOver){
           char str[15];
           sprintf(str, "Round: %d / %d", roundNumber, getHighScore());
           displayBottom(str);
           delay(500);
           allLazersOff();
+          //Play the notes that are stored
           for(int i = 0; i < roundNumber; i++){
                int whichLazer = allLazerNumbers[i];
                lazerOn(whichLazer);
@@ -100,15 +104,64 @@ void runGame(){
           allLazersOn();
           delay(100);
 
+          //The users turn to try
           for(int j = 0; j < roundNumber; j++){
                bool started = false;
                int whichLazer = allLazerNumbers[j];
                while(!started){
-                    if(isPhotocell1Active() || isPhotocell2Active() || isPhotocell3Active()){
-                         doLazerTone(whichLazer);
+                    bool is1Active = isPhotocell1Active();
+                    bool is2Active = isPhotocell2Active();
+                    bool is3Active = isPhotocell3Active();
+
+                    int selectedLazer = 0;
+                    bool correct = false;
+                    if(is1Active || is2Active || is3Active){
+                         if(is1Active && whichLazer == 1){
+                              selectedLazer = 1;
+                              correct = true;
+                         }else if(is2Active && whichLazer == 2){
+                              selectedLazer = 2;
+                              correct = true;
+                         }else if(is3Active && whichLazer == 3){
+                              selectedLazer = 3;
+                              correct = true;
+                         }else if(is1Active && whichLazer != 1){
+                              selectedLazer = 1;
+                              correct = false;
+                         }else if(is2Active && whichLazer != 2){
+                              selectedLazer = 2;
+                              correct = false;
+                         }else if(is3Active && whichLazer != 3){
+                              selectedLazer = 3;
+                              correct = false;
+                         }
+
+                         doLazerTone(selectedLazer);
                          started = true;
+                         if(!correct){
+                              bool isHigh = checkHighScore();
+                              if(isHigh){
+                                   playTwohySaysHighScore(roundNumber);
+                              }else{
+                                   displayBottom("   GAME OVER");
+                                   playTone(G,100);
+                                   delay(2000);
+                                   char str[15];
+                                   sprintf(str, " Your Score: %d ", roundNumber);
+                                   displayBottom(str);
+                                   delay(2000);
+                              }
+
+                              gameOver = true;
+                              roundNumber = 0;
+
+                              break;
+                         }
                     }
                     delay(200);
+               }
+               if(gameOver == true){
+                    break;
                }
           }
           allLazersOff();
@@ -117,6 +170,15 @@ void runGame(){
           delay(100);
      }
 
+}
+
+bool checkHighScore(){
+     if(roundNumber > getHighScore()){
+          storeHighScore(roundNumber);
+          return true;
+     }else{
+          return false;
+     }
 }
 
 void doLazerTone(int lazer){
@@ -188,20 +250,27 @@ void doTwohySaysIntro(){
      }
 }
 
-void playTwohySaysHighScore(){
+void playTwohySaysHighScore(int roundNumber){
+     displayBottom("New High Score");
      int melody[] = {Bb, G, G, Bb, G, G, Bb, G, G, Bb, G, G, Bb, G, C, G, Bb, G, G, Bb, G, G, Bb, G, G, Bb, G, G, Bb, G, F, D, F, D, G, F, D, C, Bb, G, Bb, C, C1, C, Bb, F, D, Bb, G, F, D, C, Bb, D, C, Bb, G};
      int beats[] = {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
-
      int MAX_COUNT = sizeof(melody) / 2; // Melody length, for looping.
      for (int i=0; i<MAX_COUNT; i++) {
-       tone_ = melody[i];
-       beat = beats[i]*2;
+          allLazersOff();
+            int lazer = rand() % 3 + 1;
+            lazerOn(lazer);
+            tone_ = melody[i];
+            beat = beats[i];
+            if(i >= MAX_COUNT/2){
+                 char str[15];
+                 sprintf(str, "High: %d ", roundNumber);
+                 displayBottom(str);
+            }
+          //   duration = beat * tempo; // Set up timing
 
-       duration = beat * tempo; // Set up timing
-
-       playTone(tone_,duration);
-       // A pause between notes...
-       delayMicroseconds(pause);
+            playTone(tone_,beat);
+            // A pause between notes...
+            delayMicroseconds(pause);
      }
 }
 
