@@ -12,6 +12,7 @@ bool doLazerSelect(int lazerNumber);
 void doLazerTone(int lazer);
 void doGameOver();
 bool checkHighScore();
+void loadNameSave();
 
 int allLazerNumbers[1000];
 
@@ -22,6 +23,7 @@ int whichLazer = 0;
 bool gameOver = false;
 
 void initializeTwohySaysState(){
+     storeHighScore(0);
      clearDisplay();
      allLazersOn();
      displayTop("  TWOHY SAYS!!");
@@ -142,6 +144,7 @@ void runGame(){
                               bool isHigh = checkHighScore();
                               if(isHigh){
                                    playTwohySaysHighScore(roundNumber);
+                                   loadNameSave();
                               }else{
                                    displayBottom("   GAME OVER");
                                    playTone(G,100);
@@ -251,7 +254,7 @@ void doTwohySaysIntro(){
 }
 
 void playTwohySaysHighScore(int roundNumber){
-     displayBottom("New High Score");
+     displayBottom(" New High Score");
      int melody[] = {Bb, G, G, Bb, G, G, Bb, G, G, Bb, G, G, Bb, G, C, G, Bb, G, G, Bb, G, G, Bb, G, G, Bb, G, G, Bb, G, F, D, F, D, G, F, D, C, Bb, G, Bb, C, C1, C, Bb, F, D, Bb, G, F, D, C, Bb, D, C, Bb, G};
      int beats[] = {8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
      int MAX_COUNT = sizeof(melody) / 2; // Melody length, for looping.
@@ -272,6 +275,39 @@ void playTwohySaysHighScore(int roundNumber){
             // A pause between notes...
             delayMicroseconds(pause);
      }
+}
+
+void loadNameSave(){
+     bool selected = false;
+     char letters[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9'};
+     char* name = "   ";
+     int nameIndex = 0;
+     int letterIndex = 0;
+     char currentLetter;
+     bool on = true;
+     while(!selected){
+          if(letterIndex > 35){
+               letterIndex = 0;
+          }else if(letterIndex < 0){
+               letterIndex = 35;
+          }
+          if(on){
+               on = false;
+               name[nameIndex] = ' ';
+          }else{
+               on = true;
+               name[nameIndex] = letters[letterIndex];
+          }
+
+          char str[15];
+          sprintf(str, "Entername: %s", name);
+          displayBottom(str);
+
+          
+
+          delay(1000);
+     }
+
 }
 
 
