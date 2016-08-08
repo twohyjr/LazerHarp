@@ -6,8 +6,8 @@ int getDistance(){
      digitalWrite(trigPin, LOW);       // complete trigger sequence
      dur = pulseIn(echoPin, HIGH);  // see: http://arduino.cc/en/Reference/pulseIn
      distance = (dur/2) / 29.1;  // calculate distance from time
-     if (distance >= 200 || distance <= 0){  // remove out-of-bounds readings
-         displayBottom("Out Of Range");
-       }
+     // if (distance >= 200 || distance <= 0){  // remove out-of-bounds readings
+     //     displayBottom("Out Of Range");
+     //  }
      return distance;
 }

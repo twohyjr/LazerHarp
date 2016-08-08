@@ -1,6 +1,6 @@
 void startSelection(int currentSelection);
 
-char *menuOptions[] = {"Lazer Harp ->", "<- Twohy Says!"};
+char *menuOptions[] = {"   Lazer Harp ->", "<- Twohy Says!"};
 
 int numberOfOptions = sizeof(menuOptions);
 bool isSelected = false;
@@ -8,7 +8,7 @@ bool isSelected = false;
 int showMenu(){
      clearDisplay();
      allLazersOn();
-     displayTop("Select A Mode!");
+     displayTop("    Main Menu");
      int currentSelection = 0;
      char* textToDisplay = "";
      while(!isSelected){

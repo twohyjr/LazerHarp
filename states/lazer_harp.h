@@ -20,21 +20,21 @@ void initializeLazerHarpState(){
                if(canLight){
                     if(isLight1){
                          if(distance <= 4){
-                              playTone(A,32);
+                              playTone(A,16);
                          }else{
-                              playTone(B,32);
+                              playTone(B,16);
                          }
                     }else if(isLight2){
                          if(distance <= 4){
-                              playTone(C,32);
+                              playTone(C,16);
                          }else{
-                              playTone(D,32);
+                              playTone(D,16);
                          }
                     }else if(isLight3){
                          if(distance <= 4){
-                              playTone(E,32);
+                              playTone(E,16);
                          }else{
-                              playTone(F,32);
+                              playTone(F,16);
                          }
                     }
                     canLight = false;
