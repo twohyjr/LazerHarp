@@ -13,6 +13,7 @@ void doLazerTone(int lazer);
 void doGameOver();
 bool checkHighScore();
 void loadNameSave();
+char selectLetter(int input);
 
 int allLazerNumbers[1000];
 
@@ -23,12 +24,16 @@ int whichLazer = 0;
 bool gameOver = false;
 
 void initializeTwohySaysState(){
-     storeHighScore(0);
      clearDisplay();
      allLazersOn();
      displayTop("  TWOHY SAYS!!");
-     char str[15];
-     sprintf(str, "    High: %d ", getHighScore());
+     char str[16];
+
+     char name[4];
+     char score[1];
+     int x = getHighScore();
+     eeprom_read_string(1, name, 4);
+     sprintf(str, "High: %d by %s",x, name);
      initialize();
      displayBottom(str);
      doTwohySaysIntro();
@@ -177,7 +182,9 @@ void runGame(){
 
 bool checkHighScore(){
      if(roundNumber > getHighScore()){
+
           storeHighScore(roundNumber);
+
           return true;
      }else{
           return false;
@@ -208,6 +215,8 @@ int selectNote(int number){
   }
   return note;
 }
+
+
 
 
 void displayRound(){
@@ -266,7 +275,7 @@ void playTwohySaysHighScore(int roundNumber){
             beat = beats[i];
             if(i >= MAX_COUNT/2){
                  char str[15];
-                 sprintf(str, "High: %d ", roundNumber);
+                 sprintf(str, "   New High: %d ", roundNumber);
                  displayBottom(str);
             }
           //   duration = beat * tempo; // Set up timing
@@ -277,37 +286,53 @@ void playTwohySaysHighScore(int roundNumber){
      }
 }
 
+
 void loadNameSave(){
-     bool selected = false;
-     char letters[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9'};
-     char* name = "   ";
      int nameIndex = 0;
-     int letterIndex = 0;
-     char currentLetter;
-     bool on = true;
-     while(!selected){
-          if(letterIndex > 35){
-               letterIndex = 0;
-          }else if(letterIndex < 0){
-               letterIndex = 35;
+
+     char* name = "AAA";
+     allLazersOff();
+     lazerOn(2);
+
+     bool nameIsCreated = false;
+     while(!nameIsCreated){
+          int input = analogRead(menuDial);
+          char letter = selectLetter(input);
+          name[nameIndex] = letter;
+          displayTop("Enter Your Name!");
+          displayBottom(name);
+
+          if(isSelectButtonFullyPressed()){
+               name[nameIndex] = letter;
+               nameIndex++;
+               prevState = 0;
           }
-          if(on){
-               on = false;
-               name[nameIndex] = ' ';
-          }else{
-               on = true;
-               name[nameIndex] = letters[letterIndex];
+
+          if(nameIndex == 3){
+               nameIsCreated = true;
+
+               eeprom_write_string(1, name);
           }
-
-          char str[15];
-          sprintf(str, "Entername: %s", name);
-          displayBottom(str);
-
-          
-
-          delay(1000);
      }
 
+
+}
+
+char selectLetter(int input){
+     char letters[] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','1','2','3','4','5','6','7','8','9'};
+     int totalChars = sizeof(letters);
+
+     int split = (int)floor(1023/totalChars);
+     int whichChar = (int)floor(input/split);
+     int i = (int)floor(whichChar) - 1;
+     if(i < 0){
+          i = 0;
+     }
+     char letter = letters[i];
+     char myStg[10];
+     sprintf(myStg, "%c", letter);
+
+     return myStg[0];
 }
 
 

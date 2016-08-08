@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <LiquidCrystal.h>
 #include <EEPROM.h>
+#include "utils/eeprom_store.h"
 #include "utils/score_keeper.h"
 #include "setups/pin_setup.h"
 #include "setups/randoms_setup.h"
@@ -11,6 +12,7 @@
 #include "controllers/photocell_controller.h"
 #include "controllers/sound_controller.h"
 #include "controllers/ultra_sonic_controller.h"
+#include "controllers/button_controller.h"
 #include "states/loading_state.h"
 #include "states/lazer_harp.h"
 #include "states/twohy_says.h"
@@ -49,5 +51,6 @@ void loop() {
     }else{
       displayMenu = true;
     }
+
 }
 

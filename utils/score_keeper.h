@@ -10,5 +10,6 @@ void storeHighScore(int score){
 }
 
 long getHighScore(){
+     highScore = EEPROM.read(0);
      return highScore;
 }
